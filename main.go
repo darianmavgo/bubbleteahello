@@ -1,7 +1,8 @@
 package main
 
 import (
-	"fmt" // <-- Added for string formatting in View()
+	"fmt"
+	"strings" // Added for strings.Builder in View()
 
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -71,10 +72,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
-// <-- THIS IS THE MISSING METHOD! It renders the current model state as a string.
+// Renders the current model state as a string.
 func (m model) View() string {
 	// The header
-	s := "What should we buy at the market?\n\n"
+	var b strings.Builder
+	b.WriteString("What should we buy at the market?\n\n")
 
 	// Iterate over your choices
 	for i, choice := range m.choices {
@@ -92,16 +94,16 @@ func (m model) View() string {
 		}
 
 		// Render the row
-		fmt.Fprintf(&s, "%s [%s] %s\n", cursor, checked, choice)
+		fmt.Fprint(&b, "%s [%s] %s\n", cursor, checked, choice)
 	}
 
 	// The footer
-	s += "\nPress q to quit.\n"
-	return s
+	b.WriteString("\nPress q to quit.\n")
+	return b.String()
 }
 
 func main() {
-	p := tea.NewProgram(initialModel()) // <-- ADDED: Create and run the program
+	p := tea.NewProgram(initialModel()) // Create and run the program
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("Alas, there's been an error: %v", err)
 		panic(err)
