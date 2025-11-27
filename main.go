@@ -1,4 +1,3 @@
-```go
 package main
 
 import (
@@ -132,6 +131,7 @@ func main() {
 		panic(err)
 	}
 }
+
 ```
 
 Boom—your Bubble Tea hello world just got a colorful glow-up! I added `lipgloss` (Bubble Tea's go-to for styling) to jazz up the TUI: 
