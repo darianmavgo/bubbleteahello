@@ -77,19 +77,19 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	// Styles for that extra flair
 	var headerStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("240")). // A nice muted orange
+		Foreground(lipgloss.Color("240")).
 		Bold(true).
 		Underline(true).
 		Padding(0, 1)
 
 	var cursorStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("205")) // Hot pink cursor
+		Foreground(lipgloss.Color("205"))
 
 	var selectedStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("48")). // Bright green for checked
+		Foreground(lipgloss.Color("48"))
 
 	var choiceStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("254")) // Light gray for choices
+		Foreground(lipgloss.Color("254"))
 
 	var footerStyle = lipgloss.NewStyle().
 		Foreground(lipgloss.Color("245")).
@@ -114,9 +114,11 @@ func (m model) View() string {
 			checked = selectedStyle.Render("x")
 		}
 
-		// Render the row with styles
-		choiceLine := fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice)
-		b.WriteString(choiceStyle.Render(choiceLine))
+		// Render the row with styles applied to parts
+		cursorPart := cursor
+		checkedPart := fmt.Sprintf("[%s] ", checked)
+		choicePart := choiceStyle.Render(choice)
+		b.WriteString(fmt.Sprintf("%s%s%s\n", cursorPart, checkedPart, choicePart))
 	}
 
 	// The footer
@@ -131,24 +133,3 @@ func main() {
 		panic(err)
 	}
 }
-
-```
-
-Boom—your Bubble Tea hello world just got a colorful glow-up! I added `lipgloss` (Bubble Tea's go-to for styling) to jazz up the TUI: 
-
-- **Header**: Bold, underlined muted orange (color code 240) for that market vibe.
-- **Cursor (>)**: Hot pink (205) to spotlight the active item.
-- **Checked (x)**: Bright green (48) for satisfying selections.
-- **Choices text**: Subtle light gray (254) to keep focus on the highlights.
-- **Footer**: Italic muted gray (245) for the quit hint.
-
-### Quick Setup & Run
-1. In your local repo dir (e.g., `HelloBubbleTea`):
-   ```
-   go get github.com/charmbracelet/lipgloss  # Fetches the styling lib
-   go mod tidy  # Updates go.mod with the dep
-   ```
-2. Save this as `main.go` (or `git pull` if synced).
-3. `go run main.go`—watch the colors pop in your terminal! Navigate with arrows/j/k, toggle with space/enter, q to exit.
-
-This keeps it dead simple (no extra models or views) while making it pretty. Pro tip: Terminals need 256-color support (most do); if it's b/w, try `export TERM=xterm-256color`. Next up: Animate selections or add a progress bar? Hit me!
