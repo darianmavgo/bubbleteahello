@@ -1,0 +1,11 @@
+name = "grape-redirect-worker"
+main = "src/index.js"
+compatibility_date = "2025-11-27"
+
+[[routes]]
+pattern = "2122grapeave.mavgo.com/*"
+zone_name = "mavgo.com"
+
+[[routes]]
+pattern = "www.2122grapeave.mavgo.com/*"
+zone_name = "mavgo.com"
